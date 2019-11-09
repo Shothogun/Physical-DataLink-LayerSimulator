@@ -18,7 +18,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CXXFLAGS) $(DEBUG)
 
-montador: $(OBJ)
+PDLSimulator: $(OBJ)
 	$(CC) -o $(EDIR)/$@ $^ $(CXXFLAGS) $(LIBS) $(DEBUG)
 
 .PHONY: clean
