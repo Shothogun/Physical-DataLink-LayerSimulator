@@ -36,8 +36,10 @@ void CamadaFisicaTransmissora (int quadro[]) {
   MeioDeComunicacao(fluxoBrutoDeBits);
 }//fim do metodo CamadaFisicaTransmissora
 
+// Função que realiza a codificação binária para um quadro
+// na camada transmissora
 int* CamadaFisicaTransmissoraCodificacaoBinaria (int quadro []) {
-  //implementacao do algoritmo
+  return quadro;
 }//fim do metodo CamadaFisicaTransmissoraCodificacaoBinaria
 
 int* CamadaFisicaTransmissoraCodificacaoManchester (int quadro []) {
@@ -95,8 +97,9 @@ void CamadaFisicaReceptora (int quadro[]) {
   CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);
 }//fim do metodo CamadaFisicaTransmissora
 
+// Faz a codificação binária do quadro para camada receptora
 int* CamadaFisicaReceptoraCodificacaoBinaria (int quadro []) {
-  //implementacao do algoritmo para DECODIFICAR
+  return quadro;
 }//fim do metodo CamadaFisicaReceptoraDecodificacaoBinaria
 
 int* CamadaFisicaReceptoraCodificacaoManchester (int quadro []) {

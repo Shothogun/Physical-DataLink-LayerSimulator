@@ -33,3 +33,6 @@
 
 # VScode file
 .vscode
+
+.dir-locals.el
+PDLSimulator
