@@ -42,8 +42,46 @@ int* CamadaFisicaTransmissoraCodificacaoBinaria (int quadro []) {
   return quadro;
 }//fim do metodo CamadaFisicaTransmissoraCodificacaoBinaria
 
-int* CamadaFisicaTransmissoraCodificacaoManchester (int quadro []) {
-  //implementacao do algoritmo
+// Faz a codificação do sinal para o formato Manchester
+std::vector<int> CamadaFisicaTransmissoraCodificacaoManchester (std::vector<int> &quadro) {
+  std::cout << "-----Codificacao Manchester-----" << std::endl;
+  // Descobrir o tamanho do quadro pego
+  unsigned long int tam = quadro.size();
+  // Criar array que representará novo quadro com o dobro do tamanho
+  int manchesterArray[tam*2];
+
+  // Formar novo quadro por meio do xor entre o quadro antigo e um clock
+  // de meio periodo começado em 0
+  std::cout << "Clock:" << std::endl;
+  for(unsigned int i = 0; i < tam; i++){
+    // Clock = 0
+    std::cout << "0";
+    if(quadro[i] == 0){
+      manchesterArray[i*2] = 0;
+    }else{
+      manchesterArray[i*2] = 1;
+    }
+    // Clock = 1
+    std::cout << "1";
+    if(quadro[i] == 1){
+      manchesterArray[i*2+1] = 0;
+    }else{
+      manchesterArray[i*2+1] = 1;
+    }
+  }
+
+  // Criar vetor com a codificacao manchester
+  std::vector<int> novo_quadro;
+  novo_quadro.insert(novo_quadro.begin(), manchesterArray, manchesterArray + tam*2);
+  // Imprimir novo quadro
+  std::cout << std::endl << "Quadro com a codificacao Manchester:" << std::endl;
+  for(auto j = novo_quadro.begin(); j != novo_quadro.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+  std::cout << "--------------------------------" << std::endl;
+
+  return novo_quadro;
 }//fim do metodo CamadaFisicaTransmissoraCodificacaoManchester
 
 int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro []){
@@ -102,8 +140,44 @@ int* CamadaFisicaReceptoraCodificacaoBinaria (int quadro []) {
   return quadro;
 }//fim do metodo CamadaFisicaReceptoraDecodificacaoBinaria
 
-int* CamadaFisicaReceptoraCodificacaoManchester (int quadro []) {
-  //implementacao do algoritmo para DECODIFICAR
+// Faz a decodificação de um sinal em formato Mnachester
+std::vector<int> CamadaFisicaReceptoraCodificacaoManchester (std::vector<int> &quadro) {
+  std::cout << "----Decodificacao Manchester----" << std::endl;
+  // Descobrir o tamanho do quadro pego
+  unsigned long int tam = quadro.size();
+  // Criar array que representará novo quadro com a metade do tamanho
+  unsigned long int novoTam = tam/2;
+  int decodeArray[novoTam];
+
+  // Achar quadro original verificando se, no periodo de dois bits
+  // ocorre uma subida ou descida
+  for(unsigned int i = 0; i < novoTam; i++){
+    // Verificar se é subida
+    if(quadro[i*2] == 0 && quadro[i*2+1] == 1){
+      decodeArray[i] = 0;
+    }
+    // Verificar se é descida
+    else if(quadro[i*2] == 1 && quadro[i*2+1] == 0){
+      decodeArray[i] = 1;
+    }
+    // Apontar erro caso não for nem descida nem subida
+    else{
+      std::cout << "ERRO!" << std::endl;
+    }
+  }
+
+  // Criar vetor com a decodificacao manchester
+  std::vector<int> novo_quadro;
+  novo_quadro.insert(novo_quadro.begin(), decodeArray, decodeArray + novoTam);
+  // Imprimir novo quadro
+  std::cout << "Quadro com a decodificacao Manchester:" << std::endl;
+  for(auto j = novo_quadro.begin(); j != novo_quadro.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+  std::cout << "--------------------------------" << std::endl;
+
+  return novo_quadro;
 }//fim do metodo CamadaFisicaReceptoraDecodificacaoManchester
 
 int* CamadaFisicaReceptoraCodificacaoManchesterDiferencial(int quadro[]){
