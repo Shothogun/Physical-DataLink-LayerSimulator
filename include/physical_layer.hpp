@@ -7,7 +7,6 @@
 #include <string>         
 #include <bitset>
 
-
 enum CodType{COD_BIN=0, COD_MANCH, COD_MANCH_DIF};
 
 void AplicacaoTransmissora (void);
