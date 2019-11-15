@@ -15,7 +15,7 @@ void CamadaFisicaTransmissora (std::vector<int>);
 std::vector<int> CamadaFisicaTransmissoraCodificacaoBinaria (std::vector<int> quadro);
 std::vector<int> CamadaFisicaTransmissoraCodificacaoManchester (std::vector<int> quadro);
 std::vector<int> CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(std::vector<int> quadro);
-void MeioDeComunicacao (int fluxoBrutoDeBits[]);
+void MeioDeComunicacao (std::vector<int> fluxoBrutoDeBits);
 void CamadaFisicaReceptora (std::vector<int>);
 std::vector<int> CamadaFisicaReceptoraCodificacaoBinaria (std::vector<int> quadro);
 std::vector<int> CamadaFisicaReceptoraCodificacaoManchester (std::vector<int> quadro);

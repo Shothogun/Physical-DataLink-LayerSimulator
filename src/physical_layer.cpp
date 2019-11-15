@@ -11,13 +11,13 @@ void AplicacaoTransmissora (void) {
 void CamadaDeAplicacaoTransmissora (std::string mensagem) {
   //int quadro [] = mensagem //trabalhar com bits!!!
   //chama a proxima camada
-  int* quadro;
+  std::vector<int> quadro;
   CamadaFisicaTransmissora(quadro);
 }//fim do metodo CamadaDeAplicacaoTransmissora
 
-void CamadaFisicaTransmissora (int quadro[]) {
+void CamadaFisicaTransmissora (std::vector<int> quadro) {
   int tipoDeCodificacao = 0; //alterar de acordo o teste
-  int* fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
+  std::vector<int> fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
   switch (tipoDeCodificacao) {
   case COD_BIN : //codificao binaria
     fluxoBrutoDeBits = 
@@ -38,12 +38,21 @@ void CamadaFisicaTransmissora (int quadro[]) {
 
 // Função que realiza a codificação binária para um quadro
 // na camada transmissora
-int* CamadaFisicaTransmissoraCodificacaoBinaria (int quadro []) {
+std::vector<int> CamadaFisicaTransmissoraCodificacaoBinaria (std::vector<int> quadro) {
+  std::cout << "-----Codificacao Binária-----" << std::endl;
+  std::cout << "Quadro com a codificação Binária:" << std::endl;
+
+  for (int bit : quadro) {
+	std::cout << bit;
+  }
+
+  std::cout << std::endl;
+
   return quadro;
 }//fim do metodo CamadaFisicaTransmissoraCodificacaoBinaria
 
 // Faz a codificação do sinal para o formato Manchester
-std::vector<int> CamadaFisicaTransmissoraCodificacaoManchester (std::vector<int> &quadro) {
+std::vector<int> CamadaFisicaTransmissoraCodificacaoManchester (std::vector<int> quadro) {
   std::cout << "-----Codificacao Manchester-----" << std::endl;
   // Descobrir o tamanho do quadro pego
   unsigned long int tam = quadro.size();
@@ -130,9 +139,9 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(std::v
 * comunicacao, passando de um pontoA (transmissor) para um
 * ponto B (receptor)
 */
-void MeioDeComunicacao (int fluxoBrutoDeBits[]) {
+void MeioDeComunicacao (std::vector<int> fluxoBrutoDeBits) {
   //OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
-  int* fluxoBrutoDeBitsPontoA, *fluxoBrutoDeBitsPontoB;
+  std::vector<int> fluxoBrutoDeBitsPontoA, fluxoBrutoDeBitsPontoB;
   fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
 
   /* Código do Geraldo
@@ -146,9 +155,9 @@ void MeioDeComunicacao (int fluxoBrutoDeBits[]) {
   CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB);
 }//fim do metodo MeioDeTransmissao
 
-void CamadaFisicaReceptora (int quadro[]) {
+void CamadaFisicaReceptora (std::vector<int> quadro) {
   int tipoDeDecodificacao = 0; //alterar de acordo o teste
-  int* fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
+  std::vector<int> fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
   switch (tipoDeDecodificacao) {
   case COD_BIN : //codificao binaria
     /* Código do Geraldo
@@ -174,12 +183,22 @@ void CamadaFisicaReceptora (int quadro[]) {
 }//fim do metodo CamadaFisicaTransmissora
 
 // Faz a codificação binária do quadro para camada receptora
-int* CamadaFisicaReceptoraCodificacaoBinaria (int quadro []) {
+std::vector<int> CamadaFisicaReceptoraCodificacaoBinaria (std::vector<int> quadro) {
+  std::cout << "----Decodificacao Binária----" << std::endl;
+
+  std::cout << "Quadro com a decodificação Binária:" << std::endl;
+
+  for(int bit : quadro) {
+	std::cout << bit;
+  }
+
+  std::cout << std::endl;
+  
   return quadro;
 }//fim do metodo CamadaFisicaReceptoraDecodificacaoBinaria
 
 // Faz a decodificação de um sinal em formato Mnachester
-std::vector<int> CamadaFisicaReceptoraCodificacaoManchester (std::vector<int> &quadro) {
+std::vector<int> CamadaFisicaReceptoraCodificacaoManchester (std::vector<int> quadro) {
   std::cout << "----Decodificacao Manchester----" << std::endl;
   // Descobrir o tamanho do quadro pego
   unsigned long int tam = quadro.size();
@@ -267,7 +286,7 @@ std::vector<int> CamadaFisicaReceptoraCodificacaoManchesterDiferencial(std::vect
   //implementacao do algoritmo para DECODIFICAR
 }//fim do CamadaFisicaReceptoraDecodificacaoManchesterDiferencial
 
-void CamadaDeAplicacaoReceptora (int quadro []) {
+void CamadaDeAplicacaoReceptora (std::vector<int> quadro) {
   /* Código do Geraldo
     std::string mensagem = quadro; //estava trabalhando com bits
   */
