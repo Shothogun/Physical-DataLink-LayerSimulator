@@ -141,13 +141,26 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(std::v
 */
 void MeioDeComunicacao (std::vector<int> fluxoBrutoDeBits) {
   //OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
+  int erro, porcentagemDeErros;
   std::vector<int> fluxoBrutoDeBitsPontoA, fluxoBrutoDeBitsPontoB;
+  fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
+
+  porcentagemDeErros = 0; //10%, 20%, 30%, 40%, ..., 100%
   fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
 
   /* Código do Geraldo
   while (fluxoBrutoDeBitsPontoB.lenght!=
   fluxoBrutoDeBitsPontoA) {
     fluxoBrutoBitsPontoB += fluxoBrutoBitsPontoA; //BITS! Sendo transferidos
+    if ((rand()%100)== ... ){ //fazer a probabilidade do erro
+      fluxoBrutoBitsPontoB += fluxoBrutoBitsPontoA; //BITS!!!
+    }
+    else //ERRO! INVERTER (usa condicao ternaria){
+      fluxoBrutoBitsPontoB==0) ?
+      fluxoBrutoBitsPontoA=fluxoBrutoBitsPontoB++ :
+      fluxoBrutoBitsPontoA=fluxoBrutoBitsPontoB--;
+    }
+}//fim do while
   }//fim do while
   */
 
