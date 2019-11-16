@@ -1,27 +1,28 @@
 #ifndef DATA_LINK_LAYER_H
 #define DATA_LINK_LAYER_H
 
+#include "../include/physical_layer.hpp"
 
-void CamadaEnlaceDadosTransmissoraEnquadramentoContagemDeCaracteres(int quadro []);
-void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBytes (int quadro []);
-void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBits (int quadro []);
-void CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoDaCamadaFisica (int quadro []);
-void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro []);
-void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro []);
-void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar (int quadro []);
-void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro []);
-void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming (int quadro []);
-void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro []);
-void CamadaEnlaceDadosTransmissoraControleFluxo (int quadro []);
-void CamadaEnlaceDadosTransmissora (int quadro []);
-void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres(int quadro []);
-void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro []);
-void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro []);
-void CamadaEnlaceDadosReceptoraEnquadramentoViolacaoCamadaFisica (int quadro []);
-void CamadaEnlaceDadosReceptoraEnquadramento (int quadro []);
-void CamadaDeEnlaceDadosReceptoraControleDeErro (int quadro []);
-void CamadaDeEnlaceDadosReceptoraControleDeFluxo (int quadro []);
-void CamadaEnlaceDadosReceptora (int quadro []);
+std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres(std::vector<int>);
+std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int>);
+std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits (std::vector<int>);
+std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoCamadaFisica (std::vector<int>);
+void CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int>);
+void CamadaEnlaceDadosTransmissoraControleErroBitParidadePar (std::vector<int>);
+void CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std::vector<int>);
+void CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int>);
+void CamadaEnlaceDadosTransmissoraControleErroCodigoDeHamming (std::vector<int>);
+void CamadaEnlaceDadosTransmissoraControleErro (std::vector<int>);
+void CamadaEnlaceDadosTransmissoraControleFluxo (std::vector<int>);
+void CamadaEnlaceDadosTransmissora (std::vector<int>);
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres(std::vector<int>);
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vector<int>);
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits (std::vector<int>);
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoViolacaoCamadaFisica (std::vector<int>);
+void CamadaEnlaceDadosReceptoraEnquadramento (std::vector<int>);
+std::vector<int> CamadaDeEnlaceDadosReceptoraControleErro (std::vector<int>);
+std::vector<int> CamadaDeEnlaceDadosReceptoraControleFluxo (std::vector<int>);
+void CamadaEnlaceDadosReceptora (std::vector<int>);
 
 
 #endif
