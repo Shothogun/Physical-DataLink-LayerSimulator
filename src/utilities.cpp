@@ -45,3 +45,17 @@ char LerCaractere(std::vector<int> quadro, int letra_atual) {
   }
   return letra;
 }
+
+std::vector<int> InserirCaractere(std::vector<int> quadro, char caractere) {
+  std::vector<int> result(quadro.size() + 8, 0);
+  int i, bit;
+  for (i = 0; i < (int)quadro.size(); i++) {
+    result[i] = quadro[i];
+  }
+
+  for (i = quadro.size(), bit = 0; i < (int)result.size(); i++, bit++) {
+    result[i] = caractere >> (7 - bit);
+  }
+
+  return result;
+}

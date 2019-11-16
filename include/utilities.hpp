@@ -43,4 +43,17 @@ std::string CriarString(std::vector<int> quadro);
  */
 char LerCaractere(std::vector<int> quadro, int letra_atual);
 
+/**
+ * @brief      Insere um caractere em um quadro
+ *
+ * @details    detailed description
+ *
+ * @param      quadro Quadro onde se quer inserir o caractere
+ *
+ * @param      caractere Caractere que se quer inserir dentro do quadro
+ *
+ * @return     resultado Quadro resultante com o novo caractere adicionado
+ */
+std::vector<int> InserirCaractere(std::vector<int> quadro, char caractere);
+
 #endif /* UTILITIES_H */
