@@ -21,3 +21,21 @@ std::vector<int> CriarVetorBits(std::string mensagem) {
 
   return quadro_resultante;
 }
+
+std::string CriarString(std::vector<int> quadro) {
+  int size = quadro.size() / 8;
+  std::string resultado(size, ' ');
+
+  // Verificar o comentário na função CriarVetorbits() para saber
+  // o padrão utilizado para a conversão
+  int cont, atual = 0, bit;
+  for (cont = 0; cont < (int)resultado.size(); cont++) {
+    char letra = 0;
+	for(bit = 0; bit < 8; bit++) {
+	  letra |= quadro[atual*8 + bit] << (7 - bit);
+	}
+	resultado[atual++] = letra;
+  }
+
+  return resultado;
+}

@@ -17,5 +17,15 @@
  */
 std::vector<int> CriarVetorBits(std::string mensagem);
 
+/**
+ * @brief      Cria uma string
+ *
+ * @details    Cria a partir de um vetor de bits
+ *
+ * @param      quadro Vetor de bits que vai virar string
+ *
+ * @return     resultado String resultante da conversão
+ */
+std::string CriarString(std::vector<int> quadro);
 
 #endif /* UTILITIES_H */
