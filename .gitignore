@@ -36,3 +36,5 @@
 
 .dir-locals.el
 PDLSimulator
+*~
+exec/*
