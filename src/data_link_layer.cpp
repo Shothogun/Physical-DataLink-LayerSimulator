@@ -2,49 +2,88 @@
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres (std::vector<int> quadro) {
 //implementacao do algoritmo
-}//fim do metodo CamadaEnlaceDadosTransmissoraContagemDeCaracteres
+}//fim do metodo CamadaEnlaceDadosTransmissoraContagemCaracteres
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int> quadro) {
 //implementacao do algoritmo
-}//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoDeBytes
+}//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoBytes
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits (std::vector<int> quadro) {
 //implementacao do algoritmo
-}//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoDeBits
+}//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoBits
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoCamadaFisica (std::vector<int> quadro) {
 //implementacao do algoritmo
 }//fim do metodo CamadaEnlaceDadosTransmissoraViolacaoDaCamadaFisica
 
-void CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int> quadro) {
-  int tipoDeEnquadramento= 0; //alterar de acordo com o teste
+std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int> quadro) {
+  int tipoEnquadramento= 0; //alterar de acordo com o teste
   std::vector<int> quadroEnquadrado;
-  switch (tipoDeEnquadramento) {
+  switch (tipoEnquadramento) {
     case 0 : //contagem de caracteres
-    quadroEnquadrado =
-    CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres(quadro);
-    break;
+      quadroEnquadrado =
+      CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres(quadro);
+      break;
     case 1 : //insercao de bytes
-    quadroEnquadrado =
-    CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes(quadro);
-    break;
+      quadroEnquadrado =
+      CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes(quadro);
+      break;
     case 2 : //insercao de bits
-    quadroEnquadrado =
-    CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits(quadro);
+      quadroEnquadrado =
+      CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits(quadro);
+      break;
     case 3 : //violacao da camada fisica
-    quadroEnquadrado =
-    CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoCamadaFisica(quadro);
-    break;
+      quadroEnquadrado =
+      CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoCamadaFisica(quadro);
+      break;
   }//fim do switch/case
+
+  return quadroEnquadrado;
 }//fim do metodo CamadaEnlaceTransmissoraEnquadramento
 
-void CamadaEnlaceDadosTransmissoraControleErroBitParidadePar (std::vector<int> quadro) {
-//implementacao do algoritmo
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadePar (std::vector<int> quadro) {
+  int paridade = 0;
+
+  // Conta quantos bits 1 existem
+  for(auto bit: quadro){
+    paridade += bit;
+  }
+
+  // Se é ímpar, a paridade é 1
+  if(paridade%2 == 1){
+    quadro.push_back(1);
+  }
+
+  // Se é par, a paridade é 0
+  else {
+    quadro.push_back(0);
+  }
+
+  // Retorna o quadro com o Bit paridade
+  return quadro;
 }//fim do metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadePar
 
-void CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std::vector<int> quadro)
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std::vector<int> quadro)
 {
-//implementacao do algoritmo
+  int paridade = 0;
+
+  // Conta quantos bits 1 existem
+  for(auto bit: quadro){
+    paridade += bit;
+  }
+
+  // Se é ímpar, a paridade é 0
+  if(paridade%2 == 1){
+    quadro.push_back(0);
+  }
+
+  // Se é par, a paridade é 1
+  else {
+    quadro.push_back(1);
+  }
+
+  // Retorna o quadro com o Bit paridade
+  return quadro;
 }//fim do metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadeImpar
 
 void CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int> quadro) {
@@ -56,20 +95,23 @@ void CamadaEnlaceDadosTransmissoraControleErroCodigoHamming (std::vector<int> qu
 //implementacao do algoritmo
 }//fim do metodo CamadaEnlaceDadosTransmissoraControleDErroCodigohamming
 
-void CamadaEnlaceDadosTransmissoraControleErro (std::vector<int> quadro) {
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int> quadro) {
   int tipoControleErro = 0; //alterar de acordo com o teste
   switch (tipoControleErro) {
     case 0 : //bit de paridade par
-    //codigo
-    break;
+      // Retorna quadro com bit paridade
+      return CamadaEnlaceDadosTransmissoraControleErroBitParidadePar(quadro);
+      break;
     case 1 : //bit de paridade impar
-    //codigo
-    break;
+      // Retorna quadro com bit paridade
+      return CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar(quadro);
+      break;
     case 2 : //CRC
-    //codigo
+      //codigo
+      break;
     case 3 : //codigo de Hamming
-    //codigo
-    break;
+      //codigo
+      break;
   }//fim do switch/case
 }//fim do metodo CamadaEnlaceDadosTransmissoraControleErro
 
@@ -78,8 +120,8 @@ void CamadaEnlaceDadosTransmissoraControleFluxo (std::vector<int> quadro) {
 }//fim do metodo CamadaEnlaceDadosTransmissoraControleFluxo
 
 void CamadaEnlaceDadosTransmissora (std::vector<int> quadro) {
-  CamadaEnlaceDadosTransmissoraEnquadramento(quadro);
-  CamadaEnlaceDadosTransmissoraControleErro(quadro);
+  quadro = CamadaEnlaceDadosTransmissoraEnquadramento(quadro);
+  quadro = CamadaEnlaceDadosTransmissoraControleErro(quadro);
   CamadaEnlaceDadosTransmissoraControleFluxo(quadro);
   //chama proxima camada
   CamadaFisicaTransmissora(quadro);
@@ -106,34 +148,117 @@ void CamadaEnlaceDadosReceptoraEnquadramento (std::vector<int> quadro) {
   std::vector<int> quadroDesenquadrado;
   switch (tipoEnquadramento) {
   case 0 : //contagem de caracteres
-  quadroDesenquadrado =
-  CamadaEnlaceDadosReceptoraEnquadramentoContagemCaracteres(quadro);
-  break;
+    quadroDesenquadrado =
+    CamadaEnlaceDadosReceptoraEnquadramentoContagemCaracteres(quadro);
+    break;
   case 1 : //insercao de bytes
-  quadroDesenquadrado =
-  CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes(quadro);
-  break;
+    quadroDesenquadrado =
+    CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes(quadro);
+    break;
   case 2 : //insercao de bits
-  quadroDesenquadrado =
-  CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits(quadro);
+    quadroDesenquadrado =
+    CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits(quadro);
+    break;
   case 3 : //violacao da camada fisica
-  quadroDesenquadrado =
-  CamadaEnlaceDadosReceptoraEnquadramentoViolacaoCamadaFisica(quadro);
-  break;
+    quadroDesenquadrado =
+    CamadaEnlaceDadosReceptoraEnquadramentoViolacaoCamadaFisica(quadro);
+    break;
   }//fim do switch/case
 }//fim do metodo CamadaEnlaceDadosReceptoraEnquadramento
 
-void CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro) {
-//algum codigo aqui
-}//fim do metodo CamadaEnlaceDadosReceptoraControleDeErro
+
+void CamadaEnlaceDadosReceptoraControleErroBitParidadePar (std::vector<int> quadro ) {
+  // Conta quantos bits 1 existe
+  int paridade = 0;
+
+  // Retira o último bit paridade 
+  // e guarda para verificação
+  int bit_paridade = quadro.back();
+  quadro.pop_back();
+
+  // Conta quantos bits 1 existem
+  for(auto bit: quadro){
+    paridade += bit;
+  }
+
+  // Condição de Erro
+  // A paridade deve ser igual do bit paridade,
+  // para provocar a paridade par
+  if(paridade%2 != bit_paridade){
+    std::cout << "ERRO: Bit paridade par incorrespondente" << std::endl;
+  }
+}//fim do metodo CamadaEnlaceDadosReceptoraControleErroBitParidadePar
+
+void CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar (std::vector<int> quadro ) {
+  // Conta quantos bits 1 existe
+  int paridade = 0;
+
+  // Retira o último bit paridade 
+  // e guarda para verificação
+  int bit_paridade = quadro.back();
+  quadro.pop_back();
+
+  // Conta quantos bits 1 existem
+  for(auto bit: quadro){
+    paridade += bit;
+  }
+
+  // Condição de Erro
+  // A paridade correta deve ser diferente do bit paridade,
+  // para provocar a paridade impar
+  if(paridade%2 == bit_paridade){
+    std::cout << "ERRO: Bit paridade impar incorrespondente" << std::endl;
+  }
+}//fim do metodo CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar
+
+void CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro) {
+//implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
+//usar polinomio CRC-32(IEEE 802)
+}//fim do metodo CamadaEnlaceDadosReceptoraControleErroCRC
+
+void CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro) {
+//implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
+}//fim do metodo CamadaEnlaceDadosReceptoraControleErroCodigoHamming
+
+std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro) {
+  int tipoControleErro = 0; //alterar de acordo com o teste
+  switch (tipoControleErro) {
+    case 0 : //bit de paridade par
+      // Verifica Paridade Par
+      CamadaEnlaceDadosReceptoraControleErroBitParidadePar(quadro);
+
+      // Retira Bit paridade do quadro final
+      quadro.pop_back();
+      break;
+
+    case 1 : //bit de paridade impar
+      // Verifica Paridade Impar
+      CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar(quadro);
+
+      // Retira Bit paridade do quadro final
+      quadro.pop_back();
+      break;
+
+    case 2 : //CRC
+      //codigo
+      break;
+
+    case 3 : //codigo de hamming
+      //codigo
+      break;
+  }//fim do switch/case
+
+  return quadro;
+
+}//fim do metodo CamadaEnlaceDadosReceptoraControleErro
 
 void CamadaEnlaceDadosReceptoraControleFluxo (std::vector<int> quadro) {
 //algum codigo aqui
-}//fim do metodo CamadaEnlaceDadosReceptoraControleDeFluxo
+}//fim do metodo CamadaEnlaceDadosReceptoraControleFluxo
 
 void CamadaEnlaceDadosReceptora (std::vector<int> quadro) {
   CamadaEnlaceDadosReceptoraEnquadramento(quadro);
-  CamadaEnlaceDadosReceptoraControleErro(quadro);
+  quadro = CamadaEnlaceDadosReceptoraControleErro(quadro);
   CamadaEnlaceDadosReceptoraControleFluxo(quadro);
   //chama proxima camada
   CamadaDeAplicacaoReceptora(quadro);
