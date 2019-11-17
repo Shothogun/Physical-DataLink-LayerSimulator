@@ -39,9 +39,12 @@ std::string CriarString(std::vector<int> quadro) {
 
 char LerCaractere(std::vector<int> quadro, int letra_atual) {
   int bit;
-  char letra = 0;
+  char letra = 0, bit_pos = 0x80;
   for (bit = 0; bit < 8; bit++) {
-    letra |= quadro[letra_atual*8 + bit] << (7 - bit);
+    char temp = quadro[letra_atual*8 + bit] << (7 - bit);
+    temp = temp & bit_pos;
+    bit_pos = bit_pos >> 1;
+    letra |= temp;
   }
   return letra;
 }
@@ -54,7 +57,8 @@ std::vector<int> InserirCaractere(std::vector<int> quadro, char caractere) {
   }
 
   for (i = quadro.size(), bit = 0; i < (int)result.size(); i++, bit++) {
-    result[i] = caractere >> (7 - bit);
+    char temp = caractere >> (7 - bit);
+    result[i] = temp & 0x01;
   }
 
   return result;
