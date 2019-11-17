@@ -3,6 +3,9 @@
 
 #include "../include/physical_layer.hpp"
 
+#define BYTE_FLAG '$'
+#define BYTE_ESC '#'
+
 ///////////////////////////////////////////////
 //                 Transmissor               //
 ///////////////////////////////////////////////
