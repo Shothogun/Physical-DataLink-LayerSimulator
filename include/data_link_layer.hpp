@@ -4,6 +4,14 @@
 #include "../include/physical_layer.hpp"
 
 std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres(std::vector<int>);
+
+/**
+ * @brief      Faz enquadramento com inserção de bytes
+ *
+ * @param      Vetor de bits para fazer enquadramento
+ *
+ * @return     Vetor de bits com enquadramento feito
+ */
 std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int>);
 std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits (std::vector<int>);
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoCamadaFisica (std::vector<int>);
