@@ -2,7 +2,48 @@
 #include "../include/utilities.hpp"
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres (std::vector<int> quadro) {
-  
+
+  std::cout << "-----Contagem de caracteres-----" << std::endl;
+
+  // Tamanho do quadro
+  int tamanho_quadro;
+
+  // Quadro com o cabecalho de contagem
+  std::vector<int> quadro_cabecalho(quadro.size() + 8, 0);
+
+  // Tamanho do quadro em bytes inteiro
+  tamanho_quadro = quadro.size()/8;
+
+  // Quantidade de bytes do quadro original em hexa
+  char cabecalho = 0x0;
+
+  cabecalho = (char) tamanho_quadro;
+
+  int i, bit;
+
+  // Começa do segundo byte
+  // E preenche o quadro
+  for (i = 0, bit = 0; i < 8; i++, bit++) {
+    // Obtem o cabecalho bit a bit
+    // e insere no inicio do quadro
+    char temp = cabecalho >> (7 - bit);
+    quadro_cabecalho[i] = temp & 0x01;
+  }
+
+  // Preenche o quadro com a carga util
+  for (i = 8; i < (int)quadro_cabecalho.size(); i++) {
+    quadro_cabecalho[i] = quadro[i-8];
+  }
+
+  // Imprimir Quadro
+  std::cout << std::endl << "Quadro com a insercao de bits:" << std::endl;
+  for(auto j = quadro_cabecalho.begin(); j != quadro_cabecalho.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+  std::cout << "--------------------------" << std::endl;
+
+  return quadro_cabecalho;
 }//fim do metodo CamadaEnlaceDadosTransmissoraContagemCaracteres
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int> quadro) {
@@ -205,7 +246,55 @@ void CamadaEnlaceDadosTransmissora (std::vector<int> quadro) {
 }//fim do metodo CamadaEnlaceDadosTransmissora
 
 std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoContagemCaracteres (std::vector<int> quadro) {
-//implementacao do algoritmo
+  std::cout << "-----Decodificação Inserção De Bits-----" << std::endl;
+  
+  // Valores de iteracao
+  // i: percorre o vetor do novo quadro
+  // bit: percorre o quadro com cabecalho
+  int i, bit;
+
+  // Cabecalho que indica
+  // tamanho do quadro
+  int cabecalho = 0x00;
+
+  // Mascara para setar os bits 1
+  // Do MSB para o LSB do cabecalho
+  int mask = 0x80;
+
+  // Percorre os bits e cria
+  // o cabecalho por meio da leitura
+  for (bit = 0; bit < 8; bit++) {
+
+    // Seta o bit correspondente quando eh 1
+    if(quadro[bit] == 1) {
+      cabecalho = (cabecalho|mask);
+    }
+
+    // Move a mascara de set 
+    // para o proximo bit
+    mask >>= 1;
+  }
+
+  // Novo quadro sem cabecalho
+  std::vector<int> quadro_sem_cabecalho(cabecalho*8, 0);
+
+  // Preenche o novo quadro com o quadro 
+  // antigo, a partir do 2 byte(por isso i+8)
+  for(i = 0; i < cabecalho*8 ; i++){
+    quadro_sem_cabecalho[i] = quadro[i+8];
+  }
+
+
+  // Imprimir quadro
+  std::cout << std::endl << "Quadro decodificado:" << std::endl;
+  for(auto j = quadro_sem_cabecalho.begin(); j != quadro_sem_cabecalho.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+  std::cout << "----------------------------------------" << std::endl;
+
+  return quadro_sem_cabecalho;
+
 }//fim do metodo CamadaEnlaceDadosReceptoraContagemCaracteres
 
 std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vector<int> quadro) {

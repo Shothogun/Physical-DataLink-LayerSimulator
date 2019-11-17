@@ -113,9 +113,6 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(std::v
     second_bit = 1;
   }
 
-  // Bit de iteração do quadro codificado
-  std::vector<int>::iterator bit = quadro_manchester_diferencial.begin()++;
-
   quadro_manchester_diferencial.push_back(first_bit);
   quadro_manchester_diferencial.push_back(second_bit);
 
@@ -269,17 +266,22 @@ std::vector<int> CamadaFisicaReceptoraCodificacaoManchester (std::vector<int> qu
   return novo_quadro;
 }//fim do metodo CamadaFisicaReceptoraDecodificacaoManchester
 
+
 std::vector<int> CamadaFisicaReceptoraCodificacaoManchesterDiferencial(std::vector<int> quadro){
   std::vector<int> quadro_manchester_diferencial_decodificado;
 
   std::cout << "----Decodificacao Manchester Diferencial----" << std::endl;
 
-
   // Bits from manchester code
-  int first_bit = 1;
-  int second_bit = 0;
-  int previous_first_bit = 1;
-  int previous_second_bit = 0;
+
+  // Par de dois bits consecutivos da codificacao
+  // Manchester diferencial
+  int first_bit;
+  int second_bit;
+
+  // Dois bits anteriores aos analisados
+  int previous_first_bit;
+  int previous_second_bit;
 
   // Se o manchester diferencial começa com 0 1,
   // o primeiro bit é 0 
@@ -311,6 +313,8 @@ std::vector<int> CamadaFisicaReceptoraCodificacaoManchesterDiferencial(std::vect
 
 
   // Percorre o Quadro Codificado
+  // Pula os dois primeiros por ja terem sido
+  // decodificados
   for(std::vector<int>::iterator it=quadro.begin()+2;
      it<quadro.end(); it += 2) {
 
