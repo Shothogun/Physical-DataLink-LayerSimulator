@@ -10,11 +10,14 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::v
   int car_atual;
   char car_lido;
   std::vector<int> resultado;
+
+  // Inserindo flag inicial
   resultado = InserirCaractere(resultado, BYTE_FLAG);
 
-  // Percorrendo o quadro por bytes
+  // Percorrendo o quadro byte a byte
   for (car_atual = 0; car_atual < (int)(quadro.size()/8); car_atual++) {
-	// Lendo o caractere atual do quadro
+	
+	// Lendo o caractere atual da quadro
     car_lido = LerCaractere(quadro, car_atual);
 
 	// Verificando se o caractere de dado é um especial
@@ -25,6 +28,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::v
 	// Inserindo o caractere de dado no vetor resultante
 	resultado = InserirCaractere(resultado, car_lido);
   }
+  
   return InserirCaractere(resultado, BYTE_FLAG);
 }//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoBytes
 
@@ -151,8 +155,26 @@ std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoContagemCaracteres (std:
 //implementacao do algoritmo
 }//fim do metodo CamadaEnlaceDadosReceptoraContagemCaracteres
 
-std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vector<int>) {
-//implementacao do algoritmo
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vector<int> quadro) {
+  int car_atual;
+  char car_lido;
+
+  std::vector<int> resultado;
+
+  for (car_atual = 0; car_atual < (int)(quadro.size()/8); car_atual++) {
+    car_lido = LerCaractere(quadro, car_atual);
+
+	// Verifica se o byte de dado é especial
+	if (car_lido == BYTE_ESC) {
+	  car_lido = LerCaractere(quadro, ++car_atual);
+	  resultado = InserirCaractere(resultado, car_lido);
+	}
+	else if (car_lido != BYTE_FLAG) {
+	  resultado = InserirCaractere(resultado, car_lido);
+	}
+  }
+
+  return resultado;
 }//fim do metodo CamadaEnlaceDadosReceptoraInsercaoBytes
 
 std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits (std::vector<int>) {
