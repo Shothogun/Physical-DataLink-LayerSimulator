@@ -5,6 +5,7 @@
 
 #define BYTE_FLAG '$'
 #define BYTE_ESC '#'
+#define BIT_FLAG 0x7E
 
 ///////////////////////////////////////////////
 //                 Transmissor               //
@@ -21,6 +22,14 @@ std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres(s
  * @return     Vetor de bits com enquadramento feito
  */
 std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int>);
+
+/**
+ * @brief      Faz enquadramento com inserção de bits
+ *
+ * @param      Vetor de bits para fazer enquadramento
+ *
+ * @return     Vetor de bits com enquadramento feito
+ */
 std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits (std::vector<int>);
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoCamadaFisica (std::vector<int>);
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int>);
@@ -49,6 +58,14 @@ std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro
 // Enquadramento
 std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres(std::vector<int>);
 std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vector<int>);
+
+/**
+ * @brief      Decodifica o enquadramento com inserção de bits
+ *
+ * @param      Vetor de bits com o enquadramento
+ *
+ * @return     Vetor de bits com enquadramento desfeito
+ */
 std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits (std::vector<int>);
 std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoViolacaoCamadaFisica (std::vector<int>);
 void CamadaEnlaceDadosReceptoraEnquadramento (std::vector<int>);

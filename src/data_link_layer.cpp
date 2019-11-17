@@ -33,7 +33,48 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::v
 }//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoBytes
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits (std::vector<int> quadro) {
-//implementacao do algoritmo
+  std::cout << "-----Inserção De Bits-----" << std::endl;
+  // Declaração de Variáveis
+  int cont_uns; // Contagem de quantos 1s apareceram após um zero
+  std::vector<int> enviar;
+
+  //Inserir Padrão inicial
+  enviar = InserirCaractere(enviar, BIT_FLAG);
+
+  // Inserir Quadro no Enviar
+  cont_uns = 0;
+  for(unsigned long int i = 0; i < quadro.size(); i++){
+    int bit_atual = quadro[i];
+    // COlocar bit no vetor 'enviar'
+    enviar.push_back(bit_atual);
+    // Verificar qual é o bit
+    if(bit_atual == 0){
+      // Reinicia a contagem de uns
+      cont_uns = 0;
+    }else{
+      // Incrementa contagem de uns
+      cont_uns++;
+    }
+    // Insere bit de proteção caso contagem esteja em 5
+    if(cont_uns == 5){
+      enviar.push_back(0);
+      cont_uns = 0;
+    }
+  }
+
+  // Inserir Padrão Final
+  enviar = InserirCaractere(enviar, BIT_FLAG);
+
+  // Impirmir Quadro
+  std::cout << std::endl << "Quadro com a insercao de bits:" << std::endl;
+  for(auto j = enviar.begin(); j != enviar.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+  std::cout << "--------------------------" << std::endl;
+
+  return enviar;
+
 }//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoBits
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoCamadaFisica (std::vector<int> quadro) {
@@ -177,8 +218,67 @@ std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vect
   return resultado;
 }//fim do metodo CamadaEnlaceDadosReceptoraInsercaoBytes
 
-std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits (std::vector<int>) {
-//implementacao do algoritmo
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits (std::vector<int> quadro) {
+  std::cout << "-----Decodificação Inserção De Bits-----" << std::endl;
+  // Declaração de Variáveis
+  int cont_uns; // Contagem de uns seguidos
+  int bit_pos_ref; // Posição do ultimo bit '0'
+  std::vector<int> buffer; // Buffer para ser anexo ao vetor de envio
+  std::vector<int> enviar;
+
+  // Espera-se que o primeiro byte seja 0x7E
+  if(LerCaractere(quadro, 0) != BIT_FLAG){
+    std::cout << "ERRO! Padrão Inicial Incompativel" << std::endl;
+  }
+  
+  // Deocidificar Padrão
+  bit_pos_ref = 8;
+  cont_uns = 0;
+  unsigned long int i;
+  for(i = 8; i < quadro.size(); i++){
+    int bit_atual = quadro[i];
+
+    // Vericar caso em que o bit é 0
+    if(bit_atual == 0){
+      // Caso a contagem atual for 6 (BIT_FLAG)
+      if(cont_uns == 6){
+        // Chegou no fim do quadro
+        buffer.clear();
+        break;
+      }
+      // Caso a contagem de uns atual for 5
+      if(cont_uns == 5){
+        enviar.insert(enviar.end(), buffer.begin(), buffer.end()); //Colocar buffer no vetor de envio sem o bit atual
+        buffer.clear(); //Limpar buffer
+      }
+      else{
+        enviar.insert(enviar.end(), buffer.begin(), buffer.end());;
+        buffer.clear(); //Limpar Buffer
+        buffer.push_back(bit_atual); // Reinicia o Buffer com o novo 0
+      }
+      cont_uns = 0;
+    }
+    // Vericar caso em que o bit é 1
+    else{
+      buffer.push_back(bit_atual);
+      cont_uns++;
+    }
+  }
+
+  // Verificar se o fim do quadro conincidiu com o fim da sequencia de bits
+  if(i < (quadro.size() - 1)){
+    std::cout << "ERRO! Fim Do quadro nao coincidiu com fim do padrao de bits" << std::endl;
+  }
+
+  // Imprimir quadro
+  std::cout << std::endl << "Quadro decodificado:" << std::endl;
+  for(auto j = enviar.begin(); j != enviar.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+  std::cout << "----------------------------------------" << std::endl;
+
+  return enviar;
 }//fim do metodo CamadaEnlaceDadosReceptoraInsercaoBits
 
 std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoViolacaoCamadaFisica (std::vector<int> quadro) {
