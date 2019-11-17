@@ -28,14 +28,34 @@ std::string CriarString(std::vector<int> quadro) {
 
   // Verificar o comentário na função CriarVetorbits() para saber
   // o padrão utilizado para a conversão
-  int cont, atual = 0, bit;
+  int cont, atual = 0;
   for (cont = 0; cont < (int)resultado.size(); cont++) {
-    char letra = 0;
-	for(bit = 0; bit < 8; bit++) {
-	  letra |= quadro[atual*8 + bit] << (7 - bit);
-	}
-	resultado[atual++] = letra;
+	resultado[atual] = LerCaractere(quadro, atual);
+	atual++;
   }
 
   return resultado;
+}
+
+char LerCaractere(std::vector<int> quadro, int letra_atual) {
+  int bit;
+  char letra = 0;
+  for (bit = 0; bit < 8; bit++) {
+    letra |= quadro[letra_atual*8 + bit] << (7 - bit);
+  }
+  return letra;
+}
+
+std::vector<int> InserirCaractere(std::vector<int> quadro, char caractere) {
+  std::vector<int> result(quadro.size() + 8, 0);
+  int i, bit;
+  for (i = 0; i < (int)quadro.size(); i++) {
+    result[i] = quadro[i];
+  }
+
+  for (i = quadro.size(), bit = 0; i < (int)result.size(); i++, bit++) {
+    result[i] = caractere >> (7 - bit);
+  }
+
+  return result;
 }
