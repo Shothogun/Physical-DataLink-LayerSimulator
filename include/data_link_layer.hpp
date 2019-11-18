@@ -12,7 +12,9 @@
 ///////////////////////////////////////////////
 
 // Enquadramento
-std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres(std::vector<int>);
+
+
+std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres(std::vector<int> quadro);
 
 /**
  * @brief      Faz enquadramento com inserção de bytes
@@ -21,7 +23,7 @@ std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres(s
  *
  * @return     Vetor de bits com enquadramento feito
  */
-std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int>);
+std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int> quadro);
 
 /**
  * @brief      Faz enquadramento com inserção de bits
@@ -30,35 +32,33 @@ std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::
  *
  * @return     Vetor de bits com enquadramento feito
  */
-std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits (std::vector<int>);
-std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoCamadaFisica (std::vector<int>);
-std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int>);
+std::vector<int>  CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits (std::vector<int> quadro);
+std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int> quadro);
 
 // Controle de erro 
-std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadePar (std::vector<int>);
-std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std::vector<int>);
-void CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int>);
-void CamadaEnlaceDadosTransmissoraControleErroCodigoDeHamming (std::vector<int>);
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadePar (std::vector<int> quadro);
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std::vector<int> quadro);
+void CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int> quadro);
+void CamadaEnlaceDadosTransmissoraControleErroCodigoDeHamming (std::vector<int> quadro);
 
-std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int>);
-void CamadaEnlaceDadosTransmissoraControleFluxo (std::vector<int>);
-void CamadaEnlaceDadosTransmissora (std::vector<int>);
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int> quadro);
+void CamadaEnlaceDadosTransmissoraControleFluxo (std::vector<int> quadro);
+void CamadaEnlaceDadosTransmissora (std::vector<int> quadro);
 
 ///////////////////////////////////////////////
 //                  Receptor                 //
 ///////////////////////////////////////////////
 
 // Controle de erro 
-void CamadaEnlaceDadosReceptoraControleErroBitParidadePar (std::vector<int>);
-void CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar (std::vector<int>);
-void CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int>);
-void CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int>);
+void CamadaEnlaceDadosReceptoraControleErroBitParidadePar (std::vector<int> quadro);
+void CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar (std::vector<int> quadro);
+void CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro);
+void CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro);
 std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro);
 
 // Enquadramento
-std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres(std::vector<int>);
-std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vector<int>);
-
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres(std::vector<int> quadro);
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vector<int> quadro);
 /**
  * @brief      Decodifica o enquadramento com inserção de bits
  *
@@ -66,12 +66,11 @@ std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vect
  *
  * @return     Vetor de bits com enquadramento desfeito
  */
-std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits (std::vector<int>);
-std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoViolacaoCamadaFisica (std::vector<int>);
-void CamadaEnlaceDadosReceptoraEnquadramento (std::vector<int>);
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits (std::vector<int> quadro);
+std::vector<int> CamadaEnlaceDadosReceptoraEnquadramento (std::vector<int> quadro);
 
-std::vector<int> CamadaDeEnlaceDadosReceptoraControleErro (std::vector<int>);
-std::vector<int> CamadaDeEnlaceDadosReceptoraControleFluxo (std::vector<int>);
-void CamadaEnlaceDadosReceptora (std::vector<int>);
+std::vector<int> CamadaDeEnlaceDadosReceptoraControleErro (std::vector<int> quadro);
+std::vector<int> CamadaDeEnlaceDadosReceptoraControleFluxo (std::vector<int> quadro);
+void CamadaEnlaceDadosReceptora (std::vector<int> quadro);
 
 #endif
