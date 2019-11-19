@@ -6,6 +6,7 @@
 #define BYTE_FLAG '$'
 #define BYTE_ESC '#'
 #define BIT_FLAG 0x7E
+#define CRC_32 0x04C11DB7
 
 ///////////////////////////////////////////////
 //                 Transmissor               //
@@ -38,7 +39,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int> qu
 // Controle de erro 
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadePar (std::vector<int> quadro);
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std::vector<int> quadro);
-void CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int> quadro);
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int> quadro)
 void CamadaEnlaceDadosTransmissoraControleErroCodigoDeHamming (std::vector<int> quadro);
 
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int> quadro);
@@ -52,7 +53,7 @@ void CamadaEnlaceDadosTransmissora (std::vector<int> quadro);
 // Controle de erro 
 void CamadaEnlaceDadosReceptoraControleErroBitParidadePar (std::vector<int> quadro);
 void CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar (std::vector<int> quadro);
-void CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro);
+std::vector<int> CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro)
 void CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro);
 std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro);
 
