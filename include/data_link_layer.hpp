@@ -2,6 +2,7 @@
 #define DATA_LINK_LAYER_H
 
 #include "../include/physical_layer.hpp"
+#include <math.h>
 
 #define BYTE_FLAG '$'
 #define BYTE_ESC '#'
@@ -38,7 +39,15 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int>);
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadePar (std::vector<int>);
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std::vector<int>);
 void CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int>);
-void CamadaEnlaceDadosTransmissoraControleErroCodigoDeHamming (std::vector<int>);
+
+/**
+ * @brief      Faz o cotrole de erros pelo Código de Hamming para transmissão
+ *
+ * @param      quadro Quadro em que se deseja aplicar o código de Hamming
+ *
+ * @return     
+ */
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCodigoHamming  (std::vector<int>);
 
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int>);
 void CamadaEnlaceDadosTransmissoraControleFluxo (std::vector<int>);
