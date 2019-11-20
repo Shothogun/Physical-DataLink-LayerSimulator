@@ -17,9 +17,9 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoManchester (std::vector<int>
 std::vector<int> CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(std::vector<int> quadro);
 void MeioDeComunicacao (std::vector<int> fluxoBrutoDeBits);
 void CamadaFisicaReceptora (std::vector<int>);
-std::vector<int> CamadaFisicaReceptoraCodificacaoBinaria (std::vector<int> quadro);
-std::vector<int> CamadaFisicaReceptoraCodificacaoManchester (std::vector<int> quadro);
-std::vector<int> CamadaFisicaReceptoraCodificacaoManchesterDiferencial(std::vector<int> quadro);
+std::vector<int> CamadaFisicaReceptoraDecodificacaoBinaria (std::vector<int> quadro);
+std::vector<int> CamadaFisicaReceptoraDecodificacaoManchester (std::vector<int> quadro);
+std::vector<int> CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(std::vector<int> quadro);
 void CamadaDeAplicacaoReceptora (std::vector<int> quadro);
 void AplicacaoReceptora (std::string mensagem);
 

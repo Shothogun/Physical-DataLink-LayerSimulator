@@ -1,22 +1,38 @@
 #include "../include/physical_layer.hpp"
+#include "../include/data_link_layer.hpp"
+#include "../include/utilities.hpp"
+
+int tipoDeCodificacao = 0;
 
 void AplicacaoTransmissora (void) {
   std::string mensagem;
   std::cout << "Digite uma mensagem:" << std::endl;
   std::cin >> mensagem;
+  std::cout<<std::endl;
+
   //chama a proxima camada
   CamadaDeAplicacaoTransmissora(mensagem); //em um exemplo mais realistico, aqui seria dado um SEND do SOCKET
 }//fim do metodo AplicacaoTransmissora
 
 void CamadaDeAplicacaoTransmissora (std::string mensagem) {
-  //int quadro [] = mensagem //trabalhar com bits!!!
-  //chama a proxima camada
+
   std::vector<int> quadro;
-  CamadaFisicaTransmissora(quadro);
+
+  // Converter mensagem ascii para bits
+  quadro = CriarVetorBits(mensagem);
+
+  //chama a proxima camada
+  CamadaEnlaceDadosTransmissora(quadro);
 }//fim do metodo CamadaDeAplicacaoTransmissora
 
 void CamadaFisicaTransmissora (std::vector<int> quadro) {
-  int tipoDeCodificacao = 0; //alterar de acordo o teste
+  std::cout<< "Insira o tipo de codificacao:\n";
+  std::cout<< "0\t\tCodificacao Binaria\n";
+  std::cout<< "1\t\tCodificacao Manchester\n";
+  std::cout<< "2\t\tCodificacao Manchester diferencial\n";
+  std::cin >> tipoDeCodificacao;
+  std::cout<<std::endl;
+
   std::vector<int> fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
   switch (tipoDeCodificacao) {
   case COD_BIN : //codificao binaria
@@ -39,21 +55,21 @@ void CamadaFisicaTransmissora (std::vector<int> quadro) {
 // Função que realiza a codificação binária para um quadro
 // na camada transmissora
 std::vector<int> CamadaFisicaTransmissoraCodificacaoBinaria (std::vector<int> quadro) {
-  std::cout << "-----Codificacao Binária-----" << std::endl;
+  std::cout << "-----Codificacao Binária-----\n\n";
   std::cout << "Quadro com a codificação Binária:" << std::endl;
 
   for (int bit : quadro) {
 	std::cout << bit;
   }
 
-  std::cout << std::endl;
+  std::cout << "\n\n";
 
   return quadro;
 }//fim do metodo CamadaFisicaTransmissoraCodificacaoBinaria
 
 // Faz a codificação do sinal para o formato Manchester
 std::vector<int> CamadaFisicaTransmissoraCodificacaoManchester (std::vector<int> quadro) {
-  std::cout << "-----Codificacao Manchester-----" << std::endl;
+  std::cout << "-----Codificacao Manchester-----\n\n";
   // Descobrir o tamanho do quadro pego
   unsigned long int tam = quadro.size();
   // Criar array que representará novo quadro com o dobro do tamanho
@@ -88,7 +104,7 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoManchester (std::vector<int>
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "--------------------------------" << std::endl;
+  std::cout << "--------------------------------\n\n";
 
   return novo_quadro;
 }//fim do metodo CamadaFisicaTransmissoraCodificacaoManchester
@@ -100,7 +116,7 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(std::v
   int first_bit;
   int second_bit;
 
-  std::cout << "-----Codificacao Manchester Diferencial-----" << std::endl;
+  std::cout << "-----Codificacao Manchester Diferencial-----\n\n";
 
   // Bits do manchester code
   if(quadro[0] == 1){
@@ -146,7 +162,7 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(std::v
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "--------------------------------" << std::endl;
+  std::cout << "--------------------------------\n\n";
 
   return quadro_manchester_diferencial;
 }//fim do CamadaFisicaTransmissoraCodificacaoManchesterDiferencial
@@ -158,62 +174,31 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(std::v
 void MeioDeComunicacao (std::vector<int> fluxoBrutoDeBits) {
   //OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
   int erro, porcentagemDeErros;
-  std::vector<int> fluxoBrutoDeBitsPontoA, fluxoBrutoDeBitsPontoB;
-  fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
+  std::vector<int> fluxoBrutoBitsPontoA, fluxoBrutoBitsPontoB;
+  
+  for(auto bit: fluxoBrutoDeBits){
+    fluxoBrutoBitsPontoA.push_back(bit);
+  }
 
   porcentagemDeErros = 0; //10%, 20%, 30%, 40%, ..., 100%
-  fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
+  fluxoBrutoBitsPontoA = fluxoBrutoDeBits;
 
-  /* Código do Geraldo
-  while (fluxoBrutoDeBitsPontoB.lenght!=
-  fluxoBrutoDeBitsPontoA) {
-    fluxoBrutoBitsPontoB += fluxoBrutoBitsPontoA; //BITS! Sendo transferidos
-    if ((rand()%100)== ... ){ //fazer a probabilidade do erro
-      fluxoBrutoBitsPontoB += fluxoBrutoBitsPontoA; //BITS!!!
+  for(int i = 0; i < fluxoBrutoDeBits.size(); i++){
+    if(porcentagemDeErros < (rand()%100)){
+      fluxoBrutoBitsPontoB.push_back(fluxoBrutoBitsPontoA[i]); //BITS!!!
     }
-    else //ERRO! INVERTER (usa condicao ternaria){
-      fluxoBrutoBitsPontoB==0) ?
-      fluxoBrutoBitsPontoA=fluxoBrutoBitsPontoB++ :
-      fluxoBrutoBitsPontoA=fluxoBrutoBitsPontoB--;
+    else{
+      fluxoBrutoBitsPontoB[i] ^= 0x01;
     }
-}//fim do while
-  }//fim do while
-  */
+  }
 
   //chama proxima camada
-  CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB);
+  CamadaFisicaReceptora(fluxoBrutoBitsPontoB);
 }//fim do metodo MeioDeTransmissao
 
-void CamadaFisicaReceptora (std::vector<int> quadro) {
-  int tipoDeDecodificacao = 0; //alterar de acordo o teste
-  std::vector<int> fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
-  switch (tipoDeDecodificacao) {
-  case COD_BIN : //codificao binaria
-    /* Código do Geraldo
-    fluxoBrutoDeBits =
-    CamadaFisicaReceptoraDecodificacaoBinaria(quadro);
-    */
-    break;
-  case COD_MANCH: //codificacao manchester
-    /* Código do Geraldo
-    fluxoBrutoDeBits =
-    CamadaFisicaReceptoraDecodificacaoManchester(quadro);
-    */
-    break;
-  case COD_MANCH_DIF: //codificacao manchester diferencial
-    /* Código do Geraldo
-    fluxoBrutoDeBits =
-    CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro);
-    */
-    break;
-  }//fim do switch/case
-  //chama proxima camada
-  CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);
-}//fim do metodo CamadaFisicaTransmissora
-
 // Faz a codificação binária do quadro para camada receptora
-std::vector<int> CamadaFisicaReceptoraCodificacaoBinaria (std::vector<int> quadro) {
-  std::cout << "----Decodificacao Binária----" << std::endl;
+std::vector<int> CamadaFisicaReceptoraDecodificacaoBinaria (std::vector<int> quadro) {
+  std::cout << "----Decodificacao Binária----\n\n";
 
   std::cout << "Quadro com a decodificação Binária:" << std::endl;
 
@@ -227,8 +212,8 @@ std::vector<int> CamadaFisicaReceptoraCodificacaoBinaria (std::vector<int> quadr
 }//fim do metodo CamadaFisicaReceptoraDecodificacaoBinaria
 
 // Faz a decodificação de um sinal em formato Mnachester
-std::vector<int> CamadaFisicaReceptoraCodificacaoManchester (std::vector<int> quadro) {
-  std::cout << "----Decodificacao Manchester----" << std::endl;
+std::vector<int> CamadaFisicaReceptoraDecodificacaoManchester (std::vector<int> quadro) {
+  std::cout << "----Decodificacao Manchester----\n\n";
   // Descobrir o tamanho do quadro pego
   unsigned long int tam = quadro.size();
   // Criar array que representará novo quadro com a metade do tamanho
@@ -261,16 +246,16 @@ std::vector<int> CamadaFisicaReceptoraCodificacaoManchester (std::vector<int> qu
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "--------------------------------" << std::endl;
+  std::cout << "--------------------------------\n\n";
 
   return novo_quadro;
 }//fim do metodo CamadaFisicaReceptoraDecodificacaoManchester
 
 
-std::vector<int> CamadaFisicaReceptoraCodificacaoManchesterDiferencial(std::vector<int> quadro){
+std::vector<int> CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(std::vector<int> quadro){
   std::vector<int> quadro_manchester_diferencial_decodificado;
 
-  std::cout << "----Decodificacao Manchester Diferencial----" << std::endl;
+  std::cout << "----Decodificacao Manchester Diferencial----\n\n";
 
   // Bits from manchester code
 
@@ -349,23 +334,43 @@ std::vector<int> CamadaFisicaReceptoraCodificacaoManchesterDiferencial(std::vect
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "--------------------------------" << std::endl;
+  std::cout << "--------------------------------\n\n";
 
   return quadro_manchester_diferencial_decodificado;
 
   //implementacao do algoritmo para DECODIFICAR
 }//fim do CamadaFisicaReceptoraDecodificacaoManchesterDiferencial
 
-void CamadaDeAplicacaoReceptora (std::vector<int> quadro) {
-  /* Código do Geraldo
-    std::string mensagem = quadro; //estava trabalhando com bits
-  */
 
+void CamadaFisicaReceptora (std::vector<int> quadro) {
+  std::vector<int> fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
+  switch (tipoDeCodificacao) {
+  case COD_BIN : //codificao binaria
+    fluxoBrutoDeBits =
+    CamadaFisicaReceptoraDecodificacaoBinaria(quadro);
+    
+    break;
+  case COD_MANCH: //codificacao manchester
+    fluxoBrutoDeBits =
+    CamadaFisicaReceptoraDecodificacaoManchester(quadro);
+    
+    break;
+  case COD_MANCH_DIF: //codificacao manchester diferencial
+    fluxoBrutoDeBits =
+    CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro);
+    
+    break;
+  }//fim do switch/case
   //chama proxima camada
+  CamadaEnlaceDadosReceptora(fluxoBrutoDeBits);
+}//fim do metodo CamadaFisicaTransmissora
 
-  /* Código do Geraldo
-    AplicacaoReceptora(mensagem);
-  */
+void CamadaDeAplicacaoReceptora (std::vector<int> quadro) {
+  std::string mensagem = CriarString(quadro); //estava trabalhando com bits
+  
+  //chama proxima camada
+  AplicacaoReceptora(mensagem);
+
 }//fim do metodo CamadaDeAplicacaoReceptora
 
 void AplicacaoReceptora (std::string mensagem) {
