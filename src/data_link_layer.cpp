@@ -51,7 +51,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres (s
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int> quadro) {
   
-  std::cout << "-----Insercao de bytes-----" << std::endl;
+  std::cout << "------- Enquadrando por inserção de bytes -------" << std::endl;
 
   // Indica qual a posição dentro do quadro, usando caractere como medida
   int car_atual;
@@ -76,14 +76,16 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::v
 	resultado = InserirCaractere(resultado, car_lido);
   }
 
+  // Inserindo flag de final de quadro
+  resultado = InserirCaractere(resultado, BYTE_FLAG);
+
   // Impirmir Quadro
   std::cout << std::endl << "Quadro com a insercao de bytes:" << std::endl;
-  for(auto j = resultado.begin(); j != resultado.end(); ++j){
-    std::cout << *j;
+  for (int bit : resultado) {
+	std::cout << bit;
   }
-  std::cout << "00100100";
   std::cout << std::endl;
-  std::cout << "----------------------------------------\n\n";
+  std::cout << std::endl;
   
   return resultado;
 }//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoBytes
@@ -291,7 +293,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int> 
 }//fim do metodo CamadaEnlaceDadosTransmissoraControledeErroCRC
 
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCodigoHamming (std::vector<int> quadro) {
-  std::cout << "--------- Transmissão Controle de erros por Hamming --------" << std::endl;
+  std::cout << std::endl << "--------- Transmissão Controle de erros por Hamming --------" << std::endl;
   int bits_redundantes = 0;
   int tam_quadro = quadro.size();
 
@@ -358,6 +360,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCodigoHamming (std::ve
   for (int bit : resultado) {
 	std::cout << bit;
   }
+  std::cout << std::endl;
   std::cout << std::endl;
 
   return resultado;
@@ -711,7 +714,7 @@ std::vector<int> CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> qua
 }//fim do metodo CamadaEnlaceDadosTransmissoraControledeErroCRC
 
 std::vector<int> CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro) {
-  std::cout << "-------- Recepção e verificação de erros por código de Hamming --------" << std::endl;
+  std::cout << std::endl << "-------- Recepção e verificação de erros por código de Hamming --------" << std::endl;
   int bits_redundantes = 0;
   int tam_quadro = quadro.size();
 
@@ -783,6 +786,7 @@ std::vector<int> CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vecto
   for (int bit : resultado) {
 	std::cout << bit;
   }
+  std::cout << std::endl;
   std::cout << std::endl;
 
   return resultado;
