@@ -7,7 +7,7 @@ int tipoDeCodificacao = 0;
 void AplicacaoTransmissora (void) {
   std::string mensagem;
   std::cout << "Digite uma mensagem:" << std::endl;
-  std::cin >> mensagem;
+  std::getline(std::cin, mensagem);
   std::cout<<std::endl;
 
   //chama a proxima camada
@@ -180,15 +180,19 @@ void MeioDeComunicacao (std::vector<int> fluxoBrutoDeBits) {
     fluxoBrutoBitsPontoA.push_back(bit);
   }
 
+  srand(time(0));
+
   porcentagemDeErros = 0; //10%, 20%, 30%, 40%, ..., 100%
   fluxoBrutoBitsPontoA = fluxoBrutoDeBits;
 
-  for(int i = 0; i < fluxoBrutoDeBits.size(); i++){
-    if(porcentagemDeErros < (rand()%100)){
+  for(int i = 0; i < (int)fluxoBrutoDeBits.size(); i++){
+    erro = (rand()%100) + 1;
+    if(porcentagemDeErros < erro){
       fluxoBrutoBitsPontoB.push_back(fluxoBrutoBitsPontoA[i]); //BITS!!!
     }
     else{
-      fluxoBrutoBitsPontoB[i] ^= 0x01;
+      fluxoBrutoBitsPontoA[i] ^= 0x01;
+      fluxoBrutoBitsPontoB.push_back(fluxoBrutoBitsPontoA[i]);
     }
   }
 
@@ -234,6 +238,7 @@ std::vector<int> CamadaFisicaReceptoraDecodificacaoManchester (std::vector<int> 
     // Apontar erro caso não for nem descida nem subida
     else{
       std::cout << "ERRO!" << std::endl;
+
     }
   }
 

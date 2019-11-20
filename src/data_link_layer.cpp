@@ -382,7 +382,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int> qua
       return CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar(quadro);
       break;
     case 2 : //CRC
-      //codigo
+      return CamadaEnlaceDadosTransmissoraControleErroCRC(quadro);
       break;
     case 3 : //codigo de Hamming
       //codigo
@@ -807,7 +807,7 @@ std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro
       break;
 
     case 2 : //CRC
-      //codigo
+      quadro = CamadaEnlaceDadosReceptoraControleErroCRC(quadro);
       break;
 
     case 3 : //codigo de hamming
