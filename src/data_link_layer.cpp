@@ -1,6 +1,9 @@
 #include "../include/data_link_layer.hpp"
 #include "../include/utilities.hpp"
 
+int tipoEnquadramento=0;
+int tipoControleErro = 0;
+
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres (std::vector<int> quadro) {
 
   std::cout << "-----Contagem de caracteres-----" << std::endl;
@@ -36,12 +39,12 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres (s
   }
 
   // Imprimir Quadro
-  std::cout << std::endl << "Quadro com a insercao de bits:" << std::endl;
+  std::cout << std::endl << "Quadro com contagem de caracteres:" << std::endl;
   for(auto j = quadro_cabecalho.begin(); j != quadro_cabecalho.end(); ++j){
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "--------------------------" << std::endl;
+  std::cout << "----------------------------------------\n\n";
 
   return quadro_cabecalho;
 }//fim do metodo CamadaEnlaceDadosTransmissoraContagemCaracteres
@@ -112,14 +115,20 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits (std::ve
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "--------------------------" << std::endl;
+  std::cout << "----------------------------------------\n\n";
 
   return enviar;
 
 }//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoBits
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int> quadro) {
-  int tipoEnquadramento= 0; //alterar de acordo com o teste
+  std::cout<< "Insira o tipo de enquadramento:\n";
+  std::cout<< "0\t\tContatem de caracteres\n";
+  std::cout<< "1\t\tInsercao de bytes\n";
+  std::cout<< "2\t\tInsercao de bits\n";
+  std::cin >> tipoEnquadramento;
+  std::cout<<std::endl;
+
   std::vector<int> quadroEnquadrado;
   switch (tipoEnquadramento) {
     case 0 : //contagem de caracteres
@@ -165,7 +174,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadePar (std::v
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "--------------------------" << std::endl;
+  std::cout << "----------------------------------------\n\n";
 
   // Retorna o quadro com o Bit paridade
   return quadro;
@@ -198,7 +207,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std:
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "--------------------------" << std::endl;
+  std::cout << "----------------------------------------\n\n";
   // Retorna o quadro com o Bit paridade
 
   return quadro;
@@ -214,7 +223,14 @@ void CamadaEnlaceDadosTransmissoraControleErroCodigoHamming (std::vector<int> qu
 }//fim do metodo CamadaEnlaceDadosTransmissoraControleDErroCodigohamming
 
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int> quadro) {
-  int tipoControleErro = 0; //alterar de acordo com o teste
+  std::cout<< "Insira o tipo de enquadramento:\n";
+  std::cout<< "0\t\tBit paridade par\n";
+  std::cout<< "1\t\tBit paridade impar\n";
+  std::cout<< "2\t\tCRC\n";
+  std::cout<< "3\t\tCodigo de Hamming\n";
+  std::cin>> tipoControleErro;
+  std::cout<<std::endl;
+
   switch (tipoControleErro) {
     case 0 : //bit de paridade par
       // Retorna quadro com bit paridade
@@ -291,7 +307,7 @@ std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoContagemCaracteres (std:
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "----------------------------------------" << std::endl;
+  std::cout << "----------------------------------------\n\n";
 
   return quadro_sem_cabecalho;
 
@@ -315,6 +331,14 @@ std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vect
 	  resultado = InserirCaractere(resultado, car_lido);
 	}
   }
+
+  // Imprimir quadro
+  std::cout << std::endl << "Quadro decodificado:" << std::endl;
+  for(auto j = resultado.begin(); j != resultado.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+  std::cout << "----------------------------------------\n\n";
 
   return resultado;
 }//fim do metodo CamadaEnlaceDadosReceptoraInsercaoBytes
@@ -377,13 +401,12 @@ std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBits (std::vecto
     std::cout << *j;
   }
   std::cout << std::endl;
-  std::cout << "----------------------------------------" << std::endl;
+  std::cout << "----------------------------------------\n\n";
 
   return enviar;
 }//fim do metodo CamadaEnlaceDadosReceptoraInsercaoBits
 
 std::vector<int> CamadaEnlaceDadosReceptoraEnquadramento (std::vector<int> quadro) {
-  int tipoEnquadramento= 0; //alterar de acordo com o teste
   std::vector<int> quadroDesenquadrado;
   switch (tipoEnquadramento) {
   case 0 : //contagem de caracteres
@@ -494,8 +517,8 @@ void CamadaEnlaceDadosReceptoraControleFluxo (std::vector<int> quadro) {
 }//fim do metodo CamadaEnlaceDadosReceptoraControleFluxo
 
 void CamadaEnlaceDadosReceptora (std::vector<int> quadro) {
-  quadro = CamadaEnlaceDadosReceptoraEnquadramento(quadro);
   quadro = CamadaEnlaceDadosReceptoraControleErro(quadro);
+  quadro = CamadaEnlaceDadosReceptoraEnquadramento(quadro);
   CamadaEnlaceDadosReceptoraControleFluxo(quadro);
   //chama proxima camada
   CamadaDeAplicacaoReceptora(quadro);
