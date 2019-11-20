@@ -2,6 +2,7 @@
 #define DATA_LINK_LAYER_H
 
 #include "../include/physical_layer.hpp"
+#include <math.h>
 
 #define BYTE_FLAG '$'
 #define BYTE_ESC '#'
@@ -39,8 +40,16 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramento (std::vector<int> qu
 // Controle de erro 
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadePar (std::vector<int> quadro);
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std::vector<int> quadro);
-std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int> quadro)
-void CamadaEnlaceDadosTransmissoraControleErroCodigoDeHamming (std::vector<int> quadro);
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int> quadro);
+
+/**
+ * @brief      Faz o cotrole de erros pelo Código de Hamming para transmissão
+ *
+ * @param      quadro Quadro em que se deseja aplicar o código de Hamming
+ *
+ * @return     
+ */
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCodigoHamming (std::vector<int>);
 
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int> quadro);
 void CamadaEnlaceDadosTransmissoraControleFluxo (std::vector<int> quadro);
@@ -53,8 +62,16 @@ void CamadaEnlaceDadosTransmissora (std::vector<int> quadro);
 // Controle de erro 
 void CamadaEnlaceDadosReceptoraControleErroBitParidadePar (std::vector<int> quadro);
 void CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar (std::vector<int> quadro);
-std::vector<int> CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro)
-void CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro);
+std::vector<int> CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro);
+
+/**
+ * @brief      Faz a detecção de erros por código de Hamming
+ *
+ * @param      quadro Quadro a ser verificado o erro
+ *
+ * @return     quadro Quadro resultante da verificação
+ */
+std::vector<int> CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro);
 std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro);
 
 // Enquadramento
