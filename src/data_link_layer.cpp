@@ -364,7 +364,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCodigoHamming (std::ve
 }//fim do metodo CamadaEnlaceDadosTransmissoraControleDErroCodigohamming
 
 std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int> quadro) {
-  std::cout<< "Insira o tipo de enquadramento:\n";
+  std::cout<< "Insira o tipo de controle de erro:\n";
   std::cout<< "0\t\tBit paridade par\n";
   std::cout<< "1\t\tBit paridade impar\n";
   std::cout<< "2\t\tCRC\n";
@@ -385,7 +385,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraControleErro (std::vector<int> qua
       return CamadaEnlaceDadosTransmissoraControleErroCRC(quadro);
       break;
     case 3 : //codigo de Hamming
-      //codigo
+      return CamadaEnlaceDadosTransmissoraControleErroCodigoHamming(quadro);
       break;
   }//fim do switch/case
 }//fim do metodo CamadaEnlaceDadosTransmissoraControleErro
@@ -811,7 +811,7 @@ std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro
       break;
 
     case 3 : //codigo de hamming
-      //codigo
+      quadro = CamadaEnlaceDadosReceptoraControleErroCodigoHamming(quadro);
       break;
   }//fim do switch/case
 

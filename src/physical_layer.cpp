@@ -379,5 +379,5 @@ void CamadaDeAplicacaoReceptora (std::vector<int> quadro) {
 }//fim do metodo CamadaDeAplicacaoReceptora
 
 void AplicacaoReceptora (std::string mensagem) {
-  std::cout << "A mensagem recebida foi:" << mensagem << std::endl;
+  std::cout << "A mensagem recebida foi: " << mensagem << std::endl;
 }//fim do metodo AplicacaoReceptora
