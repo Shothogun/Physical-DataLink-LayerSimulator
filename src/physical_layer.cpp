@@ -55,7 +55,7 @@ void CamadaFisicaTransmissora (std::vector<int> quadro) {
 // Função que realiza a codificação binária para um quadro
 // na camada transmissora
 std::vector<int> CamadaFisicaTransmissoraCodificacaoBinaria (std::vector<int> quadro) {
-  std::cout << "-----Codificacao Binária-----\n\n";
+  std::cout <<"-----Codificacao Binária-----\n\n";
   std::cout << "Quadro com a codificação Binária:" << std::endl;
 
   for (int bit : quadro) {
@@ -69,7 +69,7 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoBinaria (std::vector<int> qu
 
 // Faz a codificação do sinal para o formato Manchester
 std::vector<int> CamadaFisicaTransmissoraCodificacaoManchester (std::vector<int> quadro) {
-  std::cout << "-----Codificacao Manchester-----\n\n";
+  std::cout  << "-----Codificacao Manchester-----\n\n";
   // Descobrir o tamanho do quadro pego
   unsigned long int tam = quadro.size();
   // Criar array que representará novo quadro com o dobro do tamanho
@@ -116,7 +116,7 @@ std::vector<int> CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(std::v
   int first_bit;
   int second_bit;
 
-  std::cout << "-----Codificacao Manchester Diferencial-----\n\n";
+  std::cout  << "-----Codificacao Manchester Diferencial-----\n\n";
 
   // Bits do manchester code
   if(quadro[0] == 1){
@@ -198,9 +198,9 @@ void MeioDeComunicacao (std::vector<int> fluxoBrutoDeBits) {
 
 // Faz a codificação binária do quadro para camada receptora
 std::vector<int> CamadaFisicaReceptoraDecodificacaoBinaria (std::vector<int> quadro) {
-  std::cout << "----Decodificacao Binária----\n\n";
+  std::cout <<"----Decodificacao Binária----\n\n";
 
-  std::cout << "Quadro com a decodificação Binária:" << std::endl;
+  std::cout <<"Quadro com a decodificação Binária:" << std::endl;
 
   for(int bit : quadro) {
 	std::cout << bit;
@@ -213,7 +213,7 @@ std::vector<int> CamadaFisicaReceptoraDecodificacaoBinaria (std::vector<int> qua
 
 // Faz a decodificação de um sinal em formato Mnachester
 std::vector<int> CamadaFisicaReceptoraDecodificacaoManchester (std::vector<int> quadro) {
-  std::cout << "----Decodificacao Manchester----\n\n";
+  std::cout <<"----Decodificacao Manchester----\n\n";
   // Descobrir o tamanho do quadro pego
   unsigned long int tam = quadro.size();
   // Criar array que representará novo quadro com a metade do tamanho
@@ -255,7 +255,7 @@ std::vector<int> CamadaFisicaReceptoraDecodificacaoManchester (std::vector<int> 
 std::vector<int> CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(std::vector<int> quadro){
   std::vector<int> quadro_manchester_diferencial_decodificado;
 
-  std::cout << "----Decodificacao Manchester Diferencial----\n\n";
+  std::cout <<"----Decodificacao Manchester Diferencial----\n\n";
 
   // Bits from manchester code
 

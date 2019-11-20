@@ -50,7 +50,9 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres (s
 }//fim do metodo CamadaEnlaceDadosTransmissoraContagemCaracteres
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int> quadro) {
-  std::cout << "-------- Enquadramento por inserção de Bytes ----------" << std::endl;
+  
+  std::cout << "-----Insercao de bytes-----" << std::endl;
+
   // Indica qual a posição dentro do quadro, usando caractere como medida
   int car_atual;
   char car_lido;
@@ -74,14 +76,14 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::v
 	resultado = InserirCaractere(resultado, car_lido);
   }
 
-  resultado = InserirCaractere(resultado, BYTE_FLAG);
-
-  std::cout << "Quadro com enquadramento por inserção de bytes:" << std::endl;
-
-  for (int bit : resultado) {
-	std::cout << bit;
+  // Impirmir Quadro
+  std::cout << std::endl << "Quadro com a insercao de bytes:" << std::endl;
+  for(auto j = resultado.begin(); j != resultado.end(); ++j){
+    std::cout << *j;
   }
+  std::cout << "00100100";
   std::cout << std::endl;
+  std::cout << "----------------------------------------\n\n";
   
   return resultado;
 }//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoBytes
@@ -595,6 +597,18 @@ void CamadaEnlaceDadosReceptoraControleErroBitParidadePar (std::vector<int> quad
   if(paridade%2 != bit_paridade){
     std::cout << "ERRO: Bit paridade par incorrespondente" << std::endl;
   }
+
+  else{
+    std::cout << "Successful!" << std::endl;
+  }
+
+  // Imprimir quadro
+  std::cout << std::endl << "Quadro Sem Bit Paridade:" << std::endl;
+  for(auto j = quadro.begin(); j != quadro.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+  std::cout << "----------------------------------------\n\n";
 }//fim do metodo CamadaEnlaceDadosReceptoraControleErroBitParidadePar
 
 void CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar (std::vector<int> quadro ) {
@@ -617,6 +631,18 @@ void CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar (std::vector<int> qu
   if(paridade%2 == bit_paridade){
     std::cout << "ERRO: Bit paridade impar incorrespondente" << std::endl;
   }
+
+  else{
+    std::cout << "Successful!" << std::endl;
+  }
+
+  // Imprimir quadro
+  std::cout << std::endl << "Quadro Sem Bit Paridade:" << std::endl;
+  for(auto j = quadro.begin(); j != quadro.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+  std::cout << "----------------------------------------\n\n";
 }//fim do metodo CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar
 
 std::vector<int> CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro) {
@@ -763,7 +789,6 @@ std::vector<int> CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vecto
 }//fim do metodo CamadaEnlaceDadosReceptoraControleErroCodigoHamming
 
 std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro) {
-  int tipoControleErro = 0; //alterar de acordo com o teste
   switch (tipoControleErro) {
     case 0 : //bit de paridade par
       // Verifica Paridade Par
