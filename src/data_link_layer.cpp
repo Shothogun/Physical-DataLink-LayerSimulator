@@ -204,9 +204,69 @@ std::vector<int> CamadaEnlaceDadosTransmissoraControleErroBitParidadeImpar (std:
   return quadro;
 }//fim do metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadeImpar
 
-void CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int> quadro) {
-//implementacao do algoritmo
-//usar polinomio CRC-32(IEEE 802)
+std::vector<int> CamadaEnlaceDadosTransmissoraControleErroCRC (std::vector<int> quadro) {
+  std::cout << "-----Controle De Erro CRC32-----" << std::endl;
+
+  // Criar vetor CRC_32
+  std::vector<int> crc32;
+  crc32.push_back(1); // Highest bit added
+  int crc32_value = CRC_32;
+  for(int i = 0; i < 32; i++){
+    unsigned int temp = crc32_value >> (31-i);
+    temp &= 0x01;
+    crc32.push_back(temp);
+  }
+  // Imprimir CRC32
+  std::cout << std::endl << "Polinomio CRC32:" << std::endl;
+  for(auto j = crc32.begin(); j != crc32.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+
+  std::vector<int> dividend = quadro;
+  std::vector<int> reminder;
+
+  // Adicionando 32 bits ao dividendo
+  dividend.insert(dividend.end(), 32, 0);
+
+  // Fazendo a divisão
+  for(int i = 0; ((int)dividend.size() - i) > 32; i++){
+    if(dividend[i] == 0) continue;
+    for(int j = 0; j < 33; j++){
+      if(dividend[i+j]){
+        if(crc32[j]) dividend[i+j] = 0;
+        else dividend[i+j] = 1; 
+      }
+      else{
+        if(crc32[j]) dividend[i+j] = 1;
+        else dividend[i+j] = 0; 
+      }
+    }
+  }
+
+  // Pegando o CRC
+  reminder.insert(reminder.begin(), dividend.end()-32, dividend.end());
+
+  // Imprimindo CRC
+  std::cout << std::endl << "Resto/CRC:" << std::endl;
+  for(auto j = reminder.begin(); j != reminder.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+
+  // Pegando e Imprimindo quadro a enviar
+  std::vector<int> result = quadro;
+  result.insert(result.end(), reminder.begin(), reminder.end());
+  std::cout << std::endl << "Quadro a Ser Enviado:" << std::endl;
+  for(auto j = result.begin(); j != result.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+
+  std::cout << std::endl;
+  std::cout << "--------------------------------" << std::endl;
+
+  return result;
 }//fim do metodo CamadaEnlaceDadosTransmissoraControledeErroCRC
 
 void CamadaEnlaceDadosTransmissoraControleErroCodigoHamming (std::vector<int> quadro) {
@@ -448,10 +508,70 @@ void CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar (std::vector<int> qu
   }
 }//fim do metodo CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar
 
-void CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro) {
-//implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
-//usar polinomio CRC-32(IEEE 802)
-}//fim do metodo CamadaEnlaceDadosReceptoraControleErroCRC
+std::vector<int> CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro) {
+  std::cout << "-----Recepcao CRC32-----" << std::endl;
+
+  // Criar vetor CRC_32
+  std::vector<int> crc32;
+  crc32.push_back(1); // Highest bit added
+  int crc32_value = CRC_32;
+  for(int i = 0; i < 32; i++){
+    unsigned int temp = crc32_value >> (31-i);
+    temp &= 0x01;
+    crc32.push_back(temp);
+  }
+
+  std::vector<int> dividend = quadro;
+  std::vector<int> reminder;
+
+  // Fazendo a divisão
+  for(int i = 0; ((int)dividend.size() - i) > 32; i++){
+    if(dividend[i] == 0) continue;
+    for(int j = 0; j < 33; j++){
+      if(dividend[i+j]){
+        if(crc32[j]) dividend[i+j] = 0;
+        else dividend[i+j] = 1; 
+      }
+      else{
+        if(crc32[j]) dividend[i+j] = 1;
+        else dividend[i+j] = 0; 
+      }
+    }
+  }
+
+  // Verificando Erros
+  bool erro_flag = false;
+  reminder.insert(reminder.begin(), dividend.end()-32, dividend.end());
+  for(unsigned int i = 0; i < reminder.size(); i++){
+    if(reminder[i] != 0){
+      erro_flag = true;
+    }
+  }
+  if(erro_flag){
+    std::cout<< std::endl << "Erros ocorreram na transmissão" << std::endl;
+  }
+
+  // Imprimindo Resto
+  std::cout << std::endl << "Resto:" << std::endl;
+  for(auto j = reminder.begin(); j != reminder.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+
+  // Recuperando e Imprimindo Dado
+  std::vector<int> result;
+  result.insert(result.end(), quadro.begin(), quadro.end()-32);
+  std::cout << std::endl << "Dado Recuperado:" << std::endl;
+  for(auto j = result.begin(); j != result.end(); ++j){
+    std::cout << *j;
+  }
+  std::cout << std::endl;
+
+  std::cout << std::endl;
+  std::cout << "--------------------------------" << std::endl;
+
+  return result;
+}//fim do metodo CamadaEnlaceDadosTransmissoraControledeErroCRC
 
 void CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro) {
 //implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
