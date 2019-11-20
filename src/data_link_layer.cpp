@@ -461,6 +461,8 @@ std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vect
   int car_atual;
   char car_lido;
 
+  std::cout << std::endl << "----------- Desenquadramento da inserção de bytes -----------" << std::endl;
+
   std::vector<int> resultado;
 
   for (car_atual = 0; car_atual < (int)(quadro.size()/8); car_atual++) {
@@ -487,11 +489,11 @@ std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vect
 
   // Imprimir quadro
   std::cout << std::endl << "Quadro decodificado:" << std::endl;
-  for(auto j = resultado.begin(); j != resultado.end(); ++j){
-    std::cout << *j;
+  for (int bit : resultado) {
+	std::cout << bit;
   }
   std::cout << std::endl;
-  std::cout << "----------------------------------------\n\n";
+  std::cout << "-------------------------------------------------------------" << std::endl << std::endl;
 
   return resultado;
 }//fim do metodo CamadaEnlaceDadosReceptoraInsercaoBytes
