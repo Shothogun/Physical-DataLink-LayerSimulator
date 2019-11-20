@@ -62,7 +62,15 @@ void CamadaEnlaceDadosTransmissora (std::vector<int> quadro);
 void CamadaEnlaceDadosReceptoraControleErroBitParidadePar (std::vector<int> quadro);
 void CamadaEnlaceDadosReceptoraControleErroBitParidadeImpar (std::vector<int> quadro);
 void CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro);
-void CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro);
+
+/**
+ * @brief      Faz a detecção de erros por código de Hamming
+ *
+ * @param      quadro Quadro a ser verificado o erro
+ *
+ * @return     quadro Quadro resultante da verificação
+ */
+std::vector<int> CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro);
 std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro);
 
 // Enquadramento

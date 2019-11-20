@@ -47,6 +47,7 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoContagemCaracteres (s
 }//fim do metodo CamadaEnlaceDadosTransmissoraContagemCaracteres
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::vector<int> quadro) {
+  std::cout << "-------- Enquadramento por inserção de Bytes ----------" << std::endl;
   // Indica qual a posição dentro do quadro, usando caractere como medida
   int car_atual;
   char car_lido;
@@ -69,8 +70,17 @@ std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBytes (std::v
 	// Inserindo o caractere de dado no vetor resultante
 	resultado = InserirCaractere(resultado, car_lido);
   }
+
+  resultado = InserirCaractere(resultado, BYTE_FLAG);
+
+  std::cout << "Quadro com enquadramento por inserção de bytes:" << std::endl;
+
+  for (int bit : resultado) {
+	std::cout << bit;
+  }
+  std::cout << std::endl;
   
-  return InserirCaractere(resultado, BYTE_FLAG);
+  return resultado;
 }//fim do metodo CamadaEnlaceDadosTransmissoraInsercaoBytes
 
 std::vector<int> CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoBits (std::vector<int> quadro) {
@@ -375,6 +385,15 @@ std::vector<int> CamadaEnlaceDadosReceptoraEnquadramentoInsercaoBytes (std::vect
   for (car_atual = 0; car_atual < (int)(quadro.size()/8); car_atual++) {
     car_lido = LerCaractere(quadro, car_atual);
 
+	if (car_lido != BYTE_FLAG) {
+	  if (car_atual == 0) {
+		std::cout << "ERRO: Byte de flag de início de quadro com erros" << std::endl;
+	  }
+	  else if (car_atual == (int)(quadro.size()/8 - 1)) {
+		std::cout << "ERRO: Byte de flag de final de quadro com erros" << std::endl;
+	  }
+	}
+	
 	// Verifica se o byte de dado é especial
 	if (car_lido == BYTE_ESC) {
 	  car_lido = LerCaractere(quadro, ++car_atual);
@@ -522,8 +541,82 @@ void CamadaEnlaceDadosReceptoraControleErroCRC (std::vector<int> quadro) {
 //usar polinomio CRC-32(IEEE 802)
 }//fim do metodo CamadaEnlaceDadosReceptoraControleErroCRC
 
-void CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro) {
-//implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
+std::vector<int> CamadaEnlaceDadosReceptoraControleErroCodigoHamming (std::vector<int> quadro) {
+  std::cout << "-------- Recepção e verificação de erros por código de Hamming --------" << std::endl;
+  int bits_redundantes = 0;
+  int tam_quadro = quadro.size();
+
+  while (tam_quadro + 1 > pow(2, bits_redundantes)) {
+	bits_redundantes++;
+  }
+  int tam_res = tam_quadro - bits_redundantes;
+
+  std::cout << "Quadro recebido:" << std::endl;
+  for (int bit : quadro) {
+	std::cout << bit;
+  }
+  std::cout << std::endl;
+
+  // Janela é um dos conjuntos de bits consecutivos dentro do quadro que
+  // que fazem parte da formação de um bit de paridade
+  int bits_jan_percorridos; // Indica quantos bits da janela atual já foram percorridos
+  int tam_janela; // Indica o tamanho máximo de uma janela, se for o bit-paridade 2, tamanho da janela é 2
+  int qtd_uns; // Indica a quantidade de 1's que fazem parte da formação daquele bit de paridade
+  int inic_janela; // Indica o início da janela atual para um certo bit de paridade
+  int cont_janela; // Usado para percorrer uma janela de um bit de paridade
+  int soma_paridades_erradas = 0;
+
+  // Loop para percorrer cada bit de paridade detro do quadro
+  for (int bitp = 1, potencia = 0; bitp <= tam_quadro; bitp = pow(2, potencia)) {
+    potencia++;
+	qtd_uns = 0;
+	inic_janela = bitp;
+	cont_janela = bitp;
+	bits_jan_percorridos = 1;
+	tam_janela = bitp;
+
+	// Loop para percorrer cada janela do bit de paridade (bitp) atual
+	while (inic_janela <= tam_quadro) {
+	  // Loop para percorrer uma única janela do bitp
+      for (cont_janela = inic_janela; tam_janela >= bits_jan_percorridos && cont_janela <= tam_quadro; cont_janela++, bits_jan_percorridos++) {
+		if (quadro[cont_janela - 1] == 1) {
+		  qtd_uns++;
+		}
+	  }
+	  inic_janela = cont_janela + bitp;
+	  bits_jan_percorridos = 1;
+	}
+
+	if (qtd_uns % 2 != 0) {
+	  std::cout << "Erro na paridade do bit P" << bitp << std::endl;
+	  soma_paridades_erradas += bitp;
+	}
+  }
+
+  if (soma_paridades_erradas > 0) {
+    std::cout << "Mudando o bit " << soma_paridades_erradas - 1 << " do quadro recebido..." << std::endl;
+	quadro[soma_paridades_erradas - 1] ^= 1;
+  }
+
+  std::vector<int> resultado(tam_res, 0);
+  int potencia, pos_res;
+  for (int i = 1, pos_res = 1, potencia = 0; i <= tam_quadro; i++) {
+    if (i == pow(2, potencia)) {
+	  potencia++;
+	}
+	else {
+	  resultado[pos_res - 1] = quadro[i - 1];
+	  pos_res++;
+	}
+  }
+
+  std::cout << "Quadro resultante:" << std::endl;
+  for (int bit : resultado) {
+	std::cout << bit;
+  }
+  std::cout << std::endl;
+
+  return resultado;
 }//fim do metodo CamadaEnlaceDadosReceptoraControleErroCodigoHamming
 
 std::vector<int> CamadaEnlaceDadosReceptoraControleErro (std::vector<int> quadro) {
